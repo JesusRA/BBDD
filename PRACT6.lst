@@ -1,0 +1,329 @@
+SQL> SPOOL
+currently spooling to PRACT6.lst
+SQL> SELECT SYSDATE
+  2  FROM DUAL;
+
+SYSDATE                                                                         
+---------                                                                       
+21-NOV-17                                                                       
+
+SQL> SELECT TO_CHAR(SYSDATE,'HH:MM:SS')
+  2  FROM DUAL;
+
+TO_CHAR(                                                                        
+--------                                                                        
+10:11:22                                                                        
+
+SQL> SELECT TO_CHAR(SYSDATE,'DAY:DD:MON:YYYY')
+  2  FROM DUAL;
+
+TO_CHAR(SYSDATE,'DAY:DD:MON:YYYY')                                              
+---------------------------------------------------------                       
+TUESDAY  :21:NOV:2017                                                           
+
+SQL> SELECT TO_CHAR(SYSDATE,'DAY,DD-MON-YYYY')
+  2  FROM DUAL;
+
+TO_CHAR(SYSDATE,'DAY,DD-MON-YYYY')                                              
+---------------------------------------------------------                       
+TUESDAY  ,21-NOV-2017                                                           
+
+SQL> SELECT TO_CHAR(SYSDATE,'DAY DD-MON-YYYY')
+  2  FROM DUAL;
+
+TO_CHAR(SYSDATE,'DAYDD-MON-YYYY')                                               
+---------------------------------------------------------                       
+TUESDAY   21-NOV-2017                                                           
+
+SQL> SELECT TO_CHAR(SYSDATE,'HH24:MM:SS')
+  2  FROM DUAL;
+
+TO_CHAR(                                                                        
+--------                                                                        
+22:11:57                                                                        
+
+SQL> SELECT FLOOR(SYSDATE-FI)
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI=8888
+  4  AND CAS=11
+  5  AND FF IS NULL;
+
+FLOOR(SYSDATE-FI)                                                               
+-----------------                                                               
+             3003                                                               
+
+SQL> SELECT DISTINCT P
+  2  FROM PROFESOR
+  3  NATURAL JOIN PLAN_DOCENTE
+  4  WHERE FF IS NOT NULL
+  5  AND (FF-FI)>365;
+
+P                                                                               
+------------------------------------------------------------                    
+JUAN                                                                            
+CARMEN                                                                          
+DAVID                                                                           
+MARIA                                                                           
+
+SQL> SPOOL
+currently spooling to PRACT6.lst
+SQL> SELECT COUNT (DNI) AS PROFESORES_ASTROFISICA
+  2  FROM PROFESOR
+  3  NATURAL JOIN AREA NATURAL JOIN DEPARTAMENTO
+  4  WHERE D='ASTROFISICA';
+
+PROFESORES_ASTROFISICA                                                          
+----------------------                                                          
+                     1                                                          
+
+SQL> SELECT COUNT (DNI) AS PROFESORES_ASTROFISICA
+  2  FROM PROFESOR
+  3  WHERE CAR IN(SELECT CAR
+  4  FROM AREA
+  5  NATURAL JOIN DEPARTAMENTO
+  6  WHERE D='ASTROFISICA');
+
+PROFESORES_ASTROFISICA                                                          
+----------------------                                                          
+                     1                                                          
+
+SQL> SELECT D, COUNT (DNI) AS NUMERO_PROFESORES
+  2  FROM PROFESOR
+  3  NATURAL JOIN AREA NATURAL JOIN DEPARTAMENTO
+  4  GROUP BY D
+  5  ORDER BY D;
+
+D                                                            NUMERO_PROFESORES  
+------------------------------------------------------------ -----------------  
+ANALISIS MATEMATICO                                                          3  
+ASTROFISICA                                                                  1  
+ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                           7  
+MATEMATICA FUNDAMENTAL                                                       1  
+
+SQL> SPOOL
+currently spooling to PRACT6.lst
+SQL> SELECT COUNT (DISTINCT T) AS NUMERO_TITULACIONES
+  2  FROM ASIGNATURA
+  3  NATURAL JOIN AREA NATURAL JOIN DEPARTAMENTO
+  4  WHERE D='ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION';
+
+NUMERO_TITULACIONES                                                             
+-------------------                                                             
+                  2                                                             
+
+SQL> SELECT COUNT (DNI) AS PROFESORES_AREA
+  2  FROM PROFESOR
+  3  NATURAL JOIN AREA
+  4  WHERE AR LIKE 'A%';
+
+PROFESORES_AREA                                                                 
+---------------                                                                 
+              3                                                                 
+
+SQL> SELECT T, COUNT (CAS) AS NUMERO_ASIGNATURAS
+  2  FROM ASIGNATURA
+  3  GROUP BY T
+  4  ORDER BY T;
+
+T    NUMERO_ASIGNATURAS                                                         
+---- ------------------                                                         
+GF                    1                                                         
+GII                   7                                                         
+GM                    2                                                         
+MII                   2                                                         
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT = (SELECT MAX(CT)
+  4  FROM ASIGNATURA);
+
+A                                                                               
+--------------------------------------------------                              
+ENSENANZA DE LA MATEMATICA                                                      
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT = (SELECT MIN(CT)
+  4  FROM ASIGNATURA);
+
+A                                                                               
+--------------------------------------------------                              
+INTELIGENCIA ARTIFICIAL                                                         
+ALMACENES DE DATOS                                                              
+MINERIA DE DATOS                                                                
+
+SQL> SELECT A, CT+CP+CL AS CREDITOS_TOTALES
+  2  FROM ASIGNATURA;
+
+A                                                  CREDITOS_TOTALES             
+-------------------------------------------------- ----------------             
+BASES DE DATOS                                                    6             
+INTELIGENCIA ARTIFICIAL                                           6             
+ALMACENES DE DATOS                                                3             
+MINERIA DE DATOS                                                  3             
+INFORMATICA BASICA                                                6             
+ALGEBRA                                                           6             
+CALCULO                                                           6             
+OPTIMIZACION                                                      6             
+GESTION DE RIESGOS                                                6             
+ASTRONOMIA                                                        6             
+ENSENANZA DE LA MATEMATICA                                        6             
+
+A                                                  CREDITOS_TOTALES             
+-------------------------------------------------- ----------------             
+ANALISIS COMPLEJO                                               7.5             
+
+12 rows selected.
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT+CP+CL = (SELECT MAX(CT+CP+CL));
+WHERE CT+CP+CL = (SELECT MAX(CT+CP+CL))
+                                      *
+ERROR at line 3:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT+CP+CL = (SELECT MAX(CT+CP+CL));
+WHERE CT+CP+CL = (SELECT MAX(CT+CP+CL))
+                                      *
+ERROR at line 3:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT+CP+CL = (SELECT MAX(CT+CP+CL)
+  4  FROM ASIGNATURA);
+
+A                                                                               
+--------------------------------------------------                              
+ANALISIS COMPLEJO                                                               
+
+SQL> SELECT A
+  2  FROM ASIGNATURA
+  3  WHERE CT+CP+CL = (SELECT MIN(CT+CP+CL)
+  4  FROM ASIGNATURA);
+
+A                                                                               
+--------------------------------------------------                              
+ALMACENES DE DATOS                                                              
+MINERIA DE DATOS                                                                
+
+SQL> SELECT AR
+  2  FROM AREA
+  3  NATURAL JOIN ASIGNATURA
+  4  WHERE CT+CP+CL = (SELECT MAX(CT+CP+CL)
+  5  FROM ASIGNATURA);
+
+AR                                                                              
+------------------------------------------------------------                    
+ANALISIS MATEMATICO                                                             
+
+SQL> SELECT COUNT (DISTINCT CAS) AS NUMERO_ASIGNATURAS
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI=1111;
+
+NUMERO_ASIGNATURAS                                                              
+------------------                                                              
+                 1                                                              
+
+SQL> SELECT SUM(CTA+CPA+CLA) AS CREDITOS
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI=1111;
+
+  CREDITOS                                                                      
+----------                                                                      
+         9                                                                      
+
+SQL> SELECT SUM(CTA+CPA+CLA) AS CREDITOS
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI=1111
+  4  AND FF IS NOT NULL;
+
+  CREDITOS                                                                      
+----------                                                                      
+         6                                                                      
+
+SQL> SELECT SUM(CTA+CPA+CLA) AS CREDITOS
+  2  FROM PLAN_DOCENTE
+  3  WHERE DNI=1111
+  4  AND FF IS NULL;
+
+  CREDITOS                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SPOOL
+currently spooling to PRACT6.lst
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  NATURAL JOIN PLAN_DOCENTE
+  4  WHERE FF IS NULL
+  5  AND SUM(CTA+CPA+CLA) = (SELECT MAX(SUM(CTA+CPA+CLA
+  6  FROM PLAN_DOCENTE
+  7  WHERE FF IS NULL)
+  8  
+SQL> SELECT P
+  2  FROM PLAN_DOCENTE
+  3  
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  NATURAL JOIN PLAN_DOCENTE
+  4  WHERE FF IS NULL
+  5  AND SUM(CTA+CPA+CLA) = (SELECT MAX(SUM(CTA+CPA+CLA))
+  6  FROM PLAN_DOCENTE
+  7  WHERE FF IS NULL);
+AND SUM(CTA+CPA+CLA) = (SELECT MAX(SUM(CTA+CPA+CLA))
+    *
+ERROR at line 5:
+ORA-00934: group function is not allowed here 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  NATURAL JOIN PLAN_DOCENTE
+  4  WHERE FF IS NULL
+  5  HAVING(SUM(CTA+CPA+CLA)>=ALL(SELECT SUM(CTA+CPA+CLA)
+  6  FROM PLAN_DOCENTE
+  7  WHERE FF IS NULL);
+HAVING(SUM(CTA+CPA+CLA)>=ALL(SELECT SUM(CTA+CPA+CLA)
+                       *
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  NATURAL JOIN PLAN_DOCENTE
+  4  WHERE FF IS NULL
+  5  HAVING(SUM(CTA+CPA+CLA)>=ALL(SELECT SUM(CTA+CPA+CLA)
+  6  FROM PLAN_DOCENTE
+  7  WHERE FF IS NULL));
+SELECT P
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to PRACT6.lst
+SQL> SELECT P
+  2  FROM PROFESOR
+  3  NATURAL JOIN PLAN_DOCENTE
+  4  WHERE FF IS NULL
+  5  GROUP BY P
+  6  HAVING (SUM(CTA+CPA+CLA)>=ALL(SELECT SUM(CTA+CPA+CLA)
+  7  FROM PLAN_DOCENTE
+  8  WHERE FF IS NULL
+  9  GROUP BY DNI));
+
+P                                                                               
+------------------------------------------------------------                    
+PEDRO                                                                           
+MARIA                                                                           
+
+SQL> SPOOL OFF
