@@ -327,3 +327,115 @@ PEDRO
 MARIA                                                                           
 
 SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to PRACT6.lst
+SQL> SELECT AVG(NUMERO_ASIGNATURAS)
+  2  FROM (SELECT COUNT(CAS) AS NUMERO_ASIGNATURAS
+  3  FROM AREA NATURAL JOIN ASIGNATURA
+  4  GROUP BY CAR);
+
+AVG(NUMERO_ASIGNATURAS)                                                         
+-----------------------                                                         
+                    1.5                                                         
+
+SQL> SELECT AVG (NUMERO_PROFESORES)
+  2  FROM (SELECT COUNT(DNI) AS NUMERO_PROFESORES
+  3  FROM DEPARTAMENTO
+  4  NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  5  GROUP BY CD);
+
+AVG(NUMERO_PROFESORES)                                                          
+----------------------                                                          
+                     3                                                          
+
+SQL> SELECT AR
+  2  FROM AREA
+  3  NATURAL JOIN ASIGNATURA
+  4  GROUP BY AR
+  5  HAVING (COUNT(CAS)>3);
+
+AR                                                                              
+------------------------------------------------------------                    
+LENGUAJES Y SISTEMAS INFORMATICOS                                               
+
+SQL> SELECT AR
+  2  FROM AREA
+  3  NATURAL JOIN ASIGNATURA
+  4  HAVING (COUNT(CAS)>6);
+SELECT AR
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT AR
+  2  FROM AREA
+  3  NATURAL JOIN ASIGNATURA
+  4  GROUP BY AR
+  5  HAVING (COUNT(CAS)>6);
+
+no rows selected
+
+SQL> SELECT D
+  2  
+SQL> 
+SQL> SPOOL
+currently spooling to PRACT6.lst
+SQL> SELECT D
+  2  FROM DEPARTAMENTO
+  3  NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  4  HAVING MIN(COUNT DNI);
+HAVING MIN(COUNT DNI)
+                 *
+ERROR at line 4:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT D
+  2  FROM DEPARTAMENTO
+  3  NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  4  HAVING MIN(COUNT (DNI));
+HAVING MIN(COUNT (DNI))
+           *
+ERROR at line 4:
+ORA-00935: group function is nested too deeply 
+
+
+SQL> SELECT D
+  2  FROM DEPARTAMENTO
+  3  NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  4  HAVING MIN(COUNT (DNI));
+HAVING MIN(COUNT (DNI))
+           *
+ERROR at line 4:
+ORA-00935: group function is nested too deeply 
+
+
+SQL> SELECT D
+  2  FROM DEPARTAMENTO
+  3  NATURAL JOIN AREA NATURAL JOIN PROFESOR
+  4  HAVING MIN(COUNT (DNI)
+  5  GROUP BY CAR);
+HAVING MIN(COUNT (DNI)
+           *
+ERROR at line 4:
+ORA-00935: group function is nested too deeply 
+
+
+SQL> SELECT D
+  2  FROM DEPARTAMENTO
+  3  NATURAL JOIN AREA
+  4  
+SQL> SPOOL OFF
+SQL> SELECT D
+  2  FROM DEPARTAMENTO NATURAL JOIN AREA
+  3  WHERE CAR IN (SELECT CAR
+  4  FROM AREA NATURAL JOIN PROFESOR
+  5  HAVING MIN(COUNT(DNI)));
+HAVING MIN(COUNT(DNI)))
+           *
+ERROR at line 5:
+ORA-00935: group function is nested too deeply 
+
+
+SQL> SPOOL OFF
