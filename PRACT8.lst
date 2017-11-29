@@ -1,0 +1,242 @@
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> CREATE TABLE TITULACION
+  2  (T CHAR (4) PRIMARY KEY,
+  3  FAC VARCHAR2(60));
+
+Table created.
+
+SQL> INSERT INTO TITULACION(T)
+  2  SELECT DISTINCT T FROM ASIGNATURA;
+
+4 rows created.
+
+SQL> SELECT * FROM TITULACION;
+
+T    FAC                                                                        
+---- ------------------------------------------------------------               
+GF                                                                              
+GM                                                                              
+GII                                                                             
+MII                                                                             
+
+SQL> UPDATE TITULACION
+  2  SET FAC = &FACULTAD
+  3  WHERE T = &TITULACION;
+Enter value for facultad: FACULTAD DE INGENIERC
+old   2: SET FAC = &FACULTAD
+new   2: SET FAC = FACULTAD DE INGENIERC
+Enter value for titulacion: 
+old   3: WHERE T = &TITULACION
+new   3: WHERE T = 
+SET FAC = FACULTAD DE INGENIERC
+                   *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> UPDATE TITULACION
+  2  SET FAC = &FACULTAD
+  3  WHERE T = &TITULACION;
+Enter value for facultad: 'FACULTAD DE INGENIERIA INFORMATICA'
+old   2: SET FAC = &FACULTAD
+new   2: SET FAC = 'FACULTAD DE INGENIERIA INFORMATICA'
+Enter value for titulacion: 'GII'
+old   3: WHERE T = &TITULACION
+new   3: WHERE T = 'GII'
+
+1 row updated.
+
+SQL> SELECT * FROM TITULACION;
+
+T    FAC                                                                        
+---- ------------------------------------------------------------               
+GF                                                                              
+GM                                                                              
+GII  FACULTAD DE INGENIERIA INFORMATICA                                         
+MII                                                                             
+
+SQL> UPDATE TITULACION
+  2  SET FAC = &FACULTAD
+  3  WHERE T = &TITULACION;
+Enter value for facultad: FACULTAD DE FC
+old   2: SET FAC = &FACULTAD
+new   2: SET FAC = FACULTAD DE FC
+Enter value for titulacion: 
+old   3: WHERE T = &TITULACION
+new   3: WHERE T = 
+SET FAC = FACULTAD DE FC
+                   *
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> 
+SQL> UPDATE TITULACION
+  2  SET FAC = &FACULTAD
+  3  WHERE T = &TITULACION;
+Enter value for facultad: 'FACULTAD DE FISICA'
+old   2: SET FAC = &FACULTAD
+new   2: SET FAC = 'FACULTAD DE FISICA'
+Enter value for titulacion: 'GF'
+old   3: WHERE T = &TITULACION
+new   3: WHERE T = 'GF'
+
+1 row updated.
+
+SQL> UPDATE TITULACION
+  2  SET FAC = &FACULTAD
+  3  WHERE T = &TITULACION;
+Enter value for facultad: 'FACULTAD DE INGENIERIA INFORMATICA'
+old   2: SET FAC = &FACULTAD
+new   2: SET FAC = 'FACULTAD DE INGENIERIA INFORMATICA'
+Enter value for titulacion: 'MII'
+old   3: WHERE T = &TITULACION
+new   3: WHERE T = 'MII'
+
+1 row updated.
+
+SQL> UPDATE TITULACION
+  2  SET FAC = &FACULTAD
+  3  WHERE T = &TITULACION;
+Enter value for facultad: 'FACULTAD DE MATEMATICAS'
+old   2: SET FAC = &FACULTAD
+new   2: SET FAC = 'FACULTAD DE MATEMATICAS'
+Enter value for titulacion: 'GM'
+old   3: WHERE T = &TITULACION
+new   3: WHERE T = 'GM'
+
+1 row updated.
+
+SQL> SELECT *
+  2  FROM TITULACION;
+
+T    FAC                                                                        
+---- ------------------------------------------------------------               
+GF   FACULTAD DE FISICA                                                         
+GM   FACULTAD DE MATEMATICAS                                                    
+GII  FACULTAD DE INGENIERIA INFORMATICA                                         
+MII  FACULTAD DE INGENIERIA INFORMATICA                                         
+
+SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> CREATE SYNONYM TIT
+  2  FOR TITULACION;
+
+Synonym created.
+
+SQL> SELECT *
+  2  FROM TIT;
+
+T    FAC                                                                        
+---- ------------------------------------------------------------               
+GF   FACULTAD DE FISICA                                                         
+GM   FACULTAD DE MATEMATICAS                                                    
+GII  FACULTAD DE INGENIERIA INFORMATICA                                         
+MII  FACULTAD DE INGENIERIA INFORMATICA                                         
+
+SQL> ALTER TABLE TITULACION
+  2  ADD CONSTRAINT FK_ASIGNATURA_TITULACION FOREIGN KEY (T)
+  3  REFERENCES ASIGNATURA ON DELETE CASCADE;
+ADD CONSTRAINT FK_ASIGNATURA_TITULACION FOREIGN KEY (T)
+                                                     *
+ERROR at line 2:
+ORA-02267: column type incompatible with referenced column type 
+
+
+SQL> ALTER TABLE TITULACION
+  2  ADD CONSTRAINT FK_ASIGNATURA_TITULACION FOREIGN KEY (T)
+  3  REFERENCES ASIGNATURA(T) ON DELETE CASCADE;
+REFERENCES ASIGNATURA(T) ON DELETE CASCADE
+                      *
+ERROR at line 3:
+ORA-02270: no matching unique or primary key for this column-list 
+
+
+SQL> ALTER TABLE TITULACION
+  2  ADD CONSTRAINT FK_ASIGNATURA_TITULACION
+  3  
+SQL> 
+SQL> ALTER TABLE ASIGNATURA
+  2  ADD CONSTRAINT FK_ASIGNATURA_TITULACION
+  3  FOREIGN KEY (T) REFERENCES TITULACION ON DELETE CASCADE);
+FOREIGN KEY (T) REFERENCES TITULACION ON DELETE CASCADE)
+                                                       *
+ERROR at line 3:
+ORA-01735: invalid ALTER TABLE option 
+
+
+SQL> ALTER TABLE ASIGNATURA
+  2  ADD CONSTRAINT FK_ASIGNATURA_TITULACION
+  3  FOREIGN KEY (T) REFERENCES TITULACION ON DELETE CASCADE;
+
+Table altered.
+
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> ALTER TABLE TITULACION
+  2  MODIFY T CHAR(6);
+ALTER TABLE TITULACION
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (ALU0100904932.FK_ASIGNATURA_TITULACION) 
+violated - child record found 
+
+
+SQL> ALTER TABLE ASIGNATURA
+  2  DISABLE CONSTRAINT  FK_ASIGNATURA_TITULACION;
+
+Table altered.
+
+SQL> ALTER TABLE TITULACION
+  2  MODIFY T CHAR(6);
+
+Table altered.
+
+SQL> ALTER TABLE ASIGNATURA
+  2  ENABLE CONSTRAINT  FK_ASIGNATURA_TITULACION;
+
+Table altered.
+
+SQL> SELECT T FROM ASIGNATURA;
+
+T                                                                               
+----                                                                            
+GII                                                                             
+GII                                                                             
+MII                                                                             
+MII                                                                             
+GII                                                                             
+GII                                                                             
+GII                                                                             
+GII                                                                             
+GII                                                                             
+GF                                                                              
+GM                                                                              
+
+T                                                                               
+----                                                                            
+GM                                                                              
+
+12 rows selected.
+
+SQL> DESCRIBE ASIGNATURA;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CAS                                       NOT NULL NUMBER(3)
+ A                                         NOT NULL VARCHAR2(50)
+ T                                         NOT NULL CHAR(4)
+ CUR                                                NUMBER(1)
+ CAR                                                NUMBER(3)
+ CT                                                 NUMBER(3,1)
+ CP                                                 NUMBER(3,1)
+ CL                                                 NUMBER(3,1)
+
+SQL> DESCRIBE TITULACION;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ T                                         NOT NULL CHAR(6)
+ FAC                                                VARCHAR2(60)
+
+SQL> SPOOL OFF
