@@ -240,3 +240,717 @@ SQL> DESCRIBE TITULACION;
  FAC                                                VARCHAR2(60)
 
 SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> CREATE VIEW VISTA1 AS
+  2  SELECT CAS, A, T, CUR, CAR
+  3  FROM ASIGNATURA;
+
+View created.
+
+SQL> SELECT *
+  2  FROM VISTA1;
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+         1 BASES DE DATOS                                     GII           3   
+         7                                                                      
+                                                                                
+         2 INTELIGENCIA ARTIFICIAL                            GII           3   
+         4                                                                      
+                                                                                
+         3 ALMACENES DE DATOS                                 MII           1   
+         7                                                                      
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+         4 MINERIA DE DATOS                                   MII           1   
+         7                                                                      
+                                                                                
+         5 INFORMATICA BASICA                                 GII           1   
+         7                                                                      
+                                                                                
+         6 ALGEBRA                                            GII           1   
+         1                                                                      
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+         7 CALCULO                                            GII           1   
+         8                                                                      
+                                                                                
+         8 OPTIMIZACION                                       GII           1   
+         6                                                                      
+                                                                                
+         9 GESTION DE RIESGOS                                 GII           3   
+         4                                                                      
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+        10 ASTRONOMIA                                         GF            2   
+         3                                                                      
+                                                                                
+        11 ENSENANZA DE LA MATEMATICA                         GM            2   
+         5                                                                      
+                                                                                
+        12 ANALISIS COMPLEJO                                  GM            4   
+         2                                                                      
+                                                                                
+
+12 rows selected.
+
+SQL> INSERT INTO VISTA1
+  2  VALUES (13, 'ESTADISTICA', GII, 3, 7);
+VALUES (13, 'ESTADISTICA', GII, 3, 7)
+                           *
+ERROR at line 2:
+ORA-00984: column not allowed here 
+
+
+SQL> VALUES (13, 'ESTADISTICA', 'GII', 3, 7);
+SP2-0734: unknown command beginning "VALUES (13..." - rest of line ignored.
+SQL> INSERT INTO VISTA1
+  2  VALUES (13, 'ESTADISTICA', 'GII', 3, 7);
+INSERT INTO VISTA1
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (ALU0100904932.FK_ASIGNATURA_TITULACION) 
+violated - parent key not found 
+
+
+SQL> REM no nos deja insertarla por la condicion de integridad asi que la desactivare para continuar
+SQL> ALTER TABLE ASIGNATURA
+  2  DISABLE CONSTRAINT FK_ASIGNATURA_TITULACION;
+
+Table altered.
+
+SQL> INSERT INTO VISTA1
+  2  VALUES (13, 'ESTADISTICA', 'GII', 3, 7);
+
+1 row created.
+
+SQL> SELECT *
+  2  FROM VISTA1;
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+         1 BASES DE DATOS                                     GII           3   
+         7                                                                      
+                                                                                
+         2 INTELIGENCIA ARTIFICIAL                            GII           3   
+         4                                                                      
+                                                                                
+         3 ALMACENES DE DATOS                                 MII           1   
+         7                                                                      
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+         4 MINERIA DE DATOS                                   MII           1   
+         7                                                                      
+                                                                                
+         5 INFORMATICA BASICA                                 GII           1   
+         7                                                                      
+                                                                                
+         6 ALGEBRA                                            GII           1   
+         1                                                                      
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+         7 CALCULO                                            GII           1   
+         8                                                                      
+                                                                                
+         8 OPTIMIZACION                                       GII           1   
+         6                                                                      
+                                                                                
+         9 GESTION DE RIESGOS                                 GII           3   
+         4                                                                      
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+        10 ASTRONOMIA                                         GF            2   
+         3                                                                      
+                                                                                
+        11 ENSENANZA DE LA MATEMATICA                         GM            2   
+         5                                                                      
+                                                                                
+        12 ANALISIS COMPLEJO                                  GM            4   
+         2                                                                      
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+        13 ESTADISTICA                                        GII           3   
+         7                                                                      
+                                                                                
+
+13 rows selected.
+
+SQL> SELECT *
+  2  FROM ASIGNATURA;
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+         1 BASES DE DATOS                                     GII           3   
+         7          3        1.5        1.5                                     
+                                                                                
+         2 INTELIGENCIA ARTIFICIAL                            GII           3   
+         4        1.5        1.5          3                                     
+                                                                                
+         3 ALMACENES DE DATOS                                 MII           1   
+         7        1.5          0        1.5                                     
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+         4 MINERIA DE DATOS                                   MII           1   
+         7        1.5          0        1.5                                     
+                                                                                
+         5 INFORMATICA BASICA                                 GII           1   
+         7          3        1.5        1.5                                     
+                                                                                
+         6 ALGEBRA                                            GII           1   
+         1          3          3          0                                     
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+         7 CALCULO                                            GII           1   
+         8          3          3          0                                     
+                                                                                
+         8 OPTIMIZACION                                       GII           1   
+         6          3        1.5        1.5                                     
+                                                                                
+         9 GESTION DE RIESGOS                                 GII           3   
+         4          3          0          3                                     
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+        10 ASTRONOMIA                                         GF            2   
+         3          3        1.5        1.5                                     
+                                                                                
+        11 ENSENANZA DE LA MATEMATICA                         GM            2   
+         5          6          0          0                                     
+                                                                                
+        12 ANALISIS COMPLEJO                                  GM            4   
+         2        4.5          3          0                                     
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+        13 ESTADISTICA                                        GII           3   
+         7          0          0          0                                     
+                                                                                
+
+13 rows selected.
+
+SQL> UPDATE VISTA1
+  2  SET CAS = 6
+  3  WHERE CAS = 13;
+UPDATE VISTA1
+*
+ERROR at line 1:
+ORA-00001: unique constraint (ALU0100904932.SYS_C0022572) violated 
+
+
+SQL> UPDATE VISTA1
+  2  SET CAR = 6
+  3  WHERE CAS = 13;
+
+1 row updated.
+
+SQL> SELECT *
+  2  FROM VISTA1;
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+         1 BASES DE DATOS                                     GII           3   
+         7                                                                      
+                                                                                
+         2 INTELIGENCIA ARTIFICIAL                            GII           3   
+         4                                                                      
+                                                                                
+         3 ALMACENES DE DATOS                                 MII           1   
+         7                                                                      
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+         4 MINERIA DE DATOS                                   MII           1   
+         7                                                                      
+                                                                                
+         5 INFORMATICA BASICA                                 GII           1   
+         7                                                                      
+                                                                                
+         6 ALGEBRA                                            GII           1   
+         1                                                                      
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+         7 CALCULO                                            GII           1   
+         8                                                                      
+                                                                                
+         8 OPTIMIZACION                                       GII           1   
+         6                                                                      
+                                                                                
+         9 GESTION DE RIESGOS                                 GII           3   
+         4                                                                      
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+        10 ASTRONOMIA                                         GF            2   
+         3                                                                      
+                                                                                
+        11 ENSENANZA DE LA MATEMATICA                         GM            2   
+         5                                                                      
+                                                                                
+        12 ANALISIS COMPLEJO                                  GM            4   
+         2                                                                      
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+        13 ESTADISTICA                                        GII           3   
+         6                                                                      
+                                                                                
+
+13 rows selected.
+
+SQL> SELECT *
+  2  FROM ASIGNATURA;
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+         1 BASES DE DATOS                                     GII           3   
+         7          3        1.5        1.5                                     
+                                                                                
+         2 INTELIGENCIA ARTIFICIAL                            GII           3   
+         4        1.5        1.5          3                                     
+                                                                                
+         3 ALMACENES DE DATOS                                 MII           1   
+         7        1.5          0        1.5                                     
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+         4 MINERIA DE DATOS                                   MII           1   
+         7        1.5          0        1.5                                     
+                                                                                
+         5 INFORMATICA BASICA                                 GII           1   
+         7          3        1.5        1.5                                     
+                                                                                
+         6 ALGEBRA                                            GII           1   
+         1          3          3          0                                     
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+         7 CALCULO                                            GII           1   
+         8          3          3          0                                     
+                                                                                
+         8 OPTIMIZACION                                       GII           1   
+         6          3        1.5        1.5                                     
+                                                                                
+         9 GESTION DE RIESGOS                                 GII           3   
+         4          3          0          3                                     
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+        10 ASTRONOMIA                                         GF            2   
+         3          3        1.5        1.5                                     
+                                                                                
+        11 ENSENANZA DE LA MATEMATICA                         GM            2   
+         5          6          0          0                                     
+                                                                                
+        12 ANALISIS COMPLEJO                                  GM            4   
+         2        4.5          3          0                                     
+                                                                                
+
+       CAS A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR         CT         CP         CL                                     
+---------- ---------- ---------- ----------                                     
+        13 ESTADISTICA                                        GII           3   
+         6          0          0          0                                     
+                                                                                
+
+13 rows selected.
+
+SQL> REM Que estan afectando tambien a la tabla asignatura
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> CREATE VIEW VISTA2
+  2  
+SQL> CREATE VIEW VISTA2 AS
+  2  SELECT DNI, A, T, CUR, CAR
+  3  FROM PLAN_DOCENTE
+  4  NATURAL JOIN VISTA1;
+
+View created.
+
+SQL> SELECT *
+  2  FROM VISTA2
+  3  ;
+
+       DNI A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+      4444 BASES DE DATOS                                     GII           3   
+         7                                                                      
+                                                                                
+      3333 INTELIGENCIA ARTIFICIAL                            GII           3   
+         4                                                                      
+                                                                                
+      1010 INTELIGENCIA ARTIFICIAL                            GII           3   
+         4                                                                      
+                                                                                
+
+       DNI A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+      2222 ALMACENES DE DATOS                                 MII           1   
+         7                                                                      
+                                                                                
+      2020 ALMACENES DE DATOS                                 MII           1   
+         7                                                                      
+                                                                                
+      4444 MINERIA DE DATOS                                   MII           1   
+         7                                                                      
+                                                                                
+
+       DNI A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+      2222 MINERIA DE DATOS                                   MII           1   
+         7                                                                      
+                                                                                
+      4444 INFORMATICA BASICA                                 GII           1   
+         7                                                                      
+                                                                                
+      5555 ALGEBRA                                            GII           1   
+         1                                                                      
+                                                                                
+
+       DNI A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+      9999 CALCULO                                            GII           1   
+         8                                                                      
+                                                                                
+      3030 OPTIMIZACION                                       GII           1   
+         6                                                                      
+                                                                                
+      1111 OPTIMIZACION                                       GII           1   
+         6                                                                      
+                                                                                
+
+       DNI A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+      1111 OPTIMIZACION                                       GII           1   
+         6                                                                      
+                                                                                
+      3333 GESTION DE RIESGOS                                 GII           3   
+         4                                                                      
+                                                                                
+      1010 GESTION DE RIESGOS                                 GII           3   
+         4                                                                      
+                                                                                
+
+       DNI A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+      1010 GESTION DE RIESGOS                                 GII           3   
+         4                                                                      
+                                                                                
+      6666 ASTRONOMIA                                         GF            2   
+         3                                                                      
+                                                                                
+      8888 ENSENANZA DE LA MATEMATICA                         GM            2   
+         5                                                                      
+                                                                                
+
+       DNI A                                                  T           CUR   
+---------- -------------------------------------------------- ---- ----------   
+       CAR                                                                      
+----------                                                                      
+      7777 ANALISIS COMPLEJO                                  GM            4   
+         2                                                                      
+                                                                                
+
+19 rows selected.
+
+SQL> UPDATE VISTA2
+  2  SET A = 'COMPUTABILIDAD Y ALGORITMIA'
+  3  WHERE A = 'INFORMATICA BASICA';
+SET A = 'COMPUTABILIDAD Y ALGORITMIA'
+    *
+ERROR at line 2:
+ORA-01779: cannot modify a column which maps to a non key-preserved table 
+
+
+SQL> UPDATE VISTA2
+  2  SET A = 'COMPUTABILIDAD Y ALGORITMIA'
+  3  
+SQL> REM You can update a join in Oracle if the following conditions are met:
+SQL> 
+SQL>     Only one base table is updated
+SP2-0734: unknown command beginning "Only one b..." - rest of line ignored.
+SQL>     All other tables are key-preserved: each of them must have at most one row for each row of the base table.
+SP2-0734: unknown command beginning "All other ..." - rest of line ignored.
+SQL> REM Only one base table is updated
+SQL> REM All other tables are key-preserved: each of them must have at most one row for each row of the base table.
+SQL> spool
+currently spooling to PRACT8.lst
+SQL> DESCRIBE VISTA2;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DNI                                       NOT NULL NUMBER(8)
+ A                                         NOT NULL VARCHAR2(50)
+ T                                         NOT NULL CHAR(4)
+ CUR                                                NUMBER(1)
+ CAR                                                NUMBER(3)
+
+SQL> DROP VIEW VISTA1
+  2  ;
+
+View dropped.
+
+SQL> SELECT *
+  2  FROM VISTA2;
+FROM VISTA2
+     *
+ERROR at line 2:
+ORA-04063: view "ALU0100904932.VISTA2" has errors 
+
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT *
+  2  FROM VISTA2;
+FROM VISTA2
+     *
+ERROR at line 2:
+ORA-04063: view "ALU0100904932.VISTA2" has errors 
+
+
+SQL> SELECT *
+  2  FROM VISTA1;
+FROM VISTA1
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> REM Es una proyeccion virtual y no esta disponible para hacer rollback
+SQL> CREATE INDEX INDICE1
+  2  ON PROFESOR (P);
+
+Index created.
+
+SQL> SELECT DNI
+  2  
+SQL> SELECT INDICE1 FROM USER_INDEXES
+  2  WHERE TABLE_NAME = 'PROFESOR';
+SELECT INDICE1 FROM USER_INDEXES
+       *
+ERROR at line 1:
+ORA-00904: "INDICE1": invalid identifier 
+
+
+SQL> SELECT INDEX_NAME FROM USER_INDEXES
+  2  WHERE TABLE_NAME = 'PROFESOR';
+
+INDEX_NAME                                                                      
+--------------------------------------------------------------------------------
+INDICE1                                                                         
+SYS_C0022567                                                                    
+
+SQL> SELECT DNI
+  2  FROM PROFESOR
+  3  WHERE P = 'JUAN';
+
+       DNI                                                                      
+----------                                                                      
+      1111                                                                      
+
+SQL> DROP INDEX INDICE1;
+
+Index dropped.
+
+SQL> SELECT INDEX_NAME FROM USER_INDEXES
+  2  WHERE TABLE_NAME = 'PROFESOR';
+
+INDEX_NAME                                                                      
+--------------------------------------------------------------------------------
+SYS_C0022567                                                                    
+
+SQL> CREATE INDEX INDICE2
+  2  ON VISTA1(CAR);
+ON VISTA1(CAR)
+   *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> REM VISTA1 no existe
+SQL> GRANT SELECT ON DEPARTAMENTO, AREA, ASIGNATURA, TITULACION
+  2  TO alumno;
+GRANT SELECT ON DEPARTAMENTO, AREA, ASIGNATURA, TITULACION
+                            *
+ERROR at line 1:
+ORA-00990: missing or invalid privilege 
+
+
+SQL> GRANT SELECT ON DEPARTAMENTO TO alumno;
+
+Grant succeeded.
+
+SQL> GRANT SELECT ON AREA TO alumno;
+
+Grant succeeded.
+
+SQL> GRANT SELECT ON ASIGNATURA TO alumno;
+
+Grant succeeded.
+
+SQL> GRANT SELECT ON TITULACION TO alumno;
+
+Grant succeeded.
+
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> GRANT INSERT, UPDATE, DELETE ON DEPARTAMENTO TO alumno;
+
+Grant succeeded.
+
+SQL> GRANT INSERT, UPDATE, DELETE ON AREA TO alumno;
+
+Grant succeeded.
+
+SQL> GRANT UPDATE ON TITULACION TO alumno;
+
+Grant succeeded.
+
+SQL> GRANT UPDATE ON ASIGNATURA TO alumno;
+
+Grant succeeded.
+
+SQL> COMMIT
+  2  ;
+
+Commit complete.
+
+SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> CONNECT alumno;
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> spool
+currently spooling to PRACT8.lst
+SQL> CONNECT
+Enter user-name: alumno
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+SQL> CONNECT
+Enter user-name: alumno
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+SQL> CONNECT alumno
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+SQL> spool
+currently spooling to PRACT8.lst
+SQL> CONNECT alumno@exthost.etsii.ull.es:9521/ORCLPDB1
+ERROR:
+ORA-12504: TNS:listener was not given the SERVICE_NAME in CONNECT_DATA 
+
+
+SQL> CONNECT alumno@exthost2.etsii.ull.es:9521/ORCLPDB1
+ERROR:
+ORA-12541: TNS:no listener 
+
+
+SQL> CONNECT ALUMNO
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+SQL> CONNECT alumno
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+SQL> exit
