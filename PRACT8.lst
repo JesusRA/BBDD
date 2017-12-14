@@ -954,3 +954,260 @@ ORA-12162: TNS:net service name is incorrectly specified
 
 
 SQL> exit
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> EXIT
+SQL> CONNECT usuario
+ERROR:
+ORA-01017: invalid username/password; logon denied 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> USER
+SP2-0042: unknown command "USER" - rest of line ignored.
+SQL> SHOW USER
+USER is ""
+SQL> CONNECT usuario
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+SQL> exit
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> CONNECT alumno
+ERROR:
+ORA-12541: TNS:no listener 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> CONNECT alumno
+Connected.
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> SELECT *
+  2  FROM alu0100904932.DEPARTAMENTO;
+
+        CD D                                                                    
+---------- ------------------------------------------------------------         
+         1 ANALISIS MATEMATICO                                                  
+         2 ASTROFISICA                                                          
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                   
+         4 MATEMATICA FUNDAMENTAL                                               
+
+SQL> SELECT *
+  2  FROM alu0100904932.PROFESOR;
+FROM alu0100904932.PROFESOR
+                   *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT *
+  2  FROM alu0100904932.PROFESORES;
+FROM alu0100904932.PROFESORES
+                   *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT *
+  2  FROM alu0100904932.PROFESOR;
+FROM alu0100904932.PROFESOR
+                   *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> CONNECT alu0100904932
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> exit
+SQL> CONNECT alumno
+Connected.
+SQL> SELECT *
+  2  FROM alu0100904932.DEPARTAMENTO;
+
+        CD D                                                                    
+---------- ------------------------------------------------------------         
+         1 ANALISIS MATEMATICO                                                  
+         2 ASTROFISICA                                                          
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                   
+         4 MATEMATICA FUNDAMENTAL                                               
+
+SQL> SELECT *
+  2  FROM alu0100904932.PROFESOR;
+FROM alu0100904932.PROFESOR
+                   *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> REM no se le ha dado los permisos necesarios al usuario alumno
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> INSERT INTO DEPARTAMENTO
+  2  VALUES (5, 'ECONOMIA');
+INSERT INTO DEPARTAMENTO
+*
+ERROR at line 1:
+ORA-00001: unique constraint (ALUMNO.SYS_C0025052) violated 
+
+
+SQL> INSERT INTO alu0100904932.DEPARTAMENTO
+  2  VALUES (5, 'ECONOMIA');
+
+1 row created.
+
+SQL> UPDATE alu0100904932.DEPARTAMENTO
+  2  SET D = 'ECONOMIA APLICADA'
+  3  WHERE CD = 5;
+
+1 row updated.
+
+SQL> SELECT *
+  2  FROM alu0100904932.DEPARTAMENTO;
+
+        CD D                                                                    
+---------- ------------------------------------------------------------         
+         1 ANALISIS MATEMATICO                                                  
+         2 ASTROFISICA                                                          
+         3 ESTADISTICA, INVESTIGACION OPERATIVA Y COMPUTACION                   
+         4 MATEMATICA FUNDAMENTAL                                               
+         5 ECONOMIA APLICADA                                                    
+
+SQL> SELECT *
+  2  FROM alu0100904932.TITULACION;
+
+T      FAC                                                                      
+------ ------------------------------------------------------------             
+GF     FACULTAD DE FISICA                                                       
+GM     FACULTAD DE MATEMATICAS                                                  
+GII    FACULTAD DE INGENIERIA INFORMATICA                                       
+MII    FACULTAD DE INGENIERIA INFORMATICA                                       
+
+SQL> UPDATE alu0100904932.TITULACION
+  2  SET FAC = 'ETSII'
+  3  WHERE T = 'GII';
+
+1 row updated.
+
+SQL> SELECT *
+  2  FROM alu0100904932.TITULACION;
+
+T      FAC                                                                      
+------ ------------------------------------------------------------             
+GF     FACULTAD DE FISICA                                                       
+GM     FACULTAD DE MATEMATICAS                                                  
+GII    ETSII                                                                    
+MII    FACULTAD DE INGENIERIA INFORMATICA                                       
+
+SQL> DELETE FROM alu0100904932.TITULACION
+  2  WHERE T = 'GII';
+DELETE FROM alu0100904932.TITULACION
+                          *
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> ROLLBACK
+  2  ;
+
+Rollback complete.
+
+SQL> CREATE VIEW VISTA3 AS
+  2  SELECT A, CAR
+  3  FROM ASIGNATURA;
+FROM ASIGNATURA
+     *
+ERROR at line 3:
+ORA-00942: table or view does not exist 
+
+
+SQL> CREATE VIEW VISTA3 AS
+  2  SELECT A, CAR
+  3  FROM alu0100904932.ASIGNATURA;
+
+View created.
+
+SQL> SELECT *
+  2  FROM VISTA3;
+
+A                                                         CAR                   
+-------------------------------------------------- ----------                   
+BASES DE DATOS                                              7                   
+INTELIGENCIA ARTIFICIAL                                     4                   
+ALMACENES DE DATOS                                          7                   
+MINERIA DE DATOS                                            7                   
+INFORMATICA BASICA                                          7                   
+ALGEBRA                                                     1                   
+CALCULO                                                     8                   
+OPTIMIZACION                                                6                   
+GESTION DE RIESGOS                                          4                   
+ASTRONOMIA                                                  3                   
+ENSENANZA DE LA MATEMATICA                                  5                   
+
+A                                                         CAR                   
+-------------------------------------------------- ----------                   
+ANALISIS COMPLEJO                                           2                   
+ESTADISTICA                                                 6                   
+
+13 rows selected.
+
+SQL> DROP VIEW VISTA3;
+
+View dropped.
+
+SQL> DROP TABLE alu0100904932.ASIGNATURA;
+DROP TABLE alu0100904932.ASIGNATURA
+                         *
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> SPOOL OFF
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> CONNECT alu0100904932
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> CONNECT alu0100904932
+ERROR:
+ORA-12162: TNS:net service name is incorrectly specified 
+
+
+SQL> exit
+SQL> REVOKE ALL ON DEPARTAMETO FROM alumno;
+REVOKE ALL ON DEPARTAMETO FROM alumno
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> REVOKE ALL ON DEPARTAMENTO FROM alumno;
+
+Revoke succeeded.
+
+SQL> REVOKE ALL ON TITULACION FROM alumno;
+
+Revoke succeeded.
+
+SQL> REVOKE ALL ON AREA FROM alumno;
+
+Revoke succeeded.
+
+SQL> REVOKE ALL ON ASIGNATURA FROM alumno;
+
+Revoke succeeded.
+
+SQL> SPOOL
+currently spooling to PRACT8.lst
+SQL> SPOOL OFF

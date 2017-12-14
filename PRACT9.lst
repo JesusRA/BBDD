@@ -1,0 +1,61 @@
+SQL> SPOOL
+currently spooling to PRACT9.lst
+SQL> BEGIN
+  2  DBMS_OUTPUT.PUT_LINE('HOLA MUNDO');
+  3  END;
+  4  ,
+  5  .
+SQL> 
+SQL> 
+SQL> 
+SQL> BEGIN
+  2  DBMS_OUTPUT.PUT_LINE('HOLA MUNDO');
+  3  END;
+  4  /
+
+PL/SQL procedure successfully completed.
+
+SQL> SAVE HOLAMUNDO
+Created file HOLAMUNDO.sql
+SQL> CREATE PROCEDURE HOLAMUNDO() IS
+  2  BEGIN
+  3  DBMS_OUTPUT.PUT_LINE('HOLA MUNDO');
+  4  END;
+  5  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> SHOW ERRORS
+Errors for PROCEDURE HOLAMUNDO:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+1/21     PLS-00103: Encountered the symbol ")" when expecting one of the        
+         following:                                                             
+         <an identifier> <a double-quoted delimited-identifier>                 
+         current delete exists prior                                            
+                                                                                
+SQL> CREATE PROCEDURE HOLAMUNDO IS
+  2  BEGIN
+  3  DBMS_OUTPUT.PUT_LINE('HOLA MUNDO');
+  4  END;
+  5  /
+CREATE PROCEDURE HOLAMUNDO IS
+                 *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> EXIT
